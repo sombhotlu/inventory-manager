@@ -1,16 +1,10 @@
-import ManageTypes from '../pages/ManageTypes';
-
 export default function TypeComponent({
   data,
   onCrossClickHandler,
   children,
   ...props
 }) {
-  let typeLabel = '';
   let typeValue = data?.object_type?.value ?? '';
-
-  let titleLabel = '';
-  let titleValue = '';
 
   return (
     <div className="w-full max-w-sm border-2">
@@ -32,23 +26,7 @@ export default function TypeComponent({
           </svg>
         </div>
       </header>
-      <main className="p-3">
-        {children}
-        {/* {data.main_fields.map((field) => (
-          <MainFields
-            key={field.name}
-            name={field.name}
-            value={field.value}
-            {...props}></MainFields>
-        ))}
-        <div className="mt-4">Fields</div>
-        {data.other_fields.map((field) => (
-          <InputWithButton data={field} />
-        ))}
-        <div className="w-full mt-4">
-          <ButtonDropdown />
-        </div> */}
-      </main>
+      <main className="p-3">{children}</main>
     </div>
   );
 }
