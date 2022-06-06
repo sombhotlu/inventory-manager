@@ -1,3 +1,5 @@
+import { OBJECT_TITLE } from '../SeedData/data';
+
 export default function TypeComponent({
   data,
   onCrossClickHandler,
@@ -40,9 +42,8 @@ export const MainField = ({ name, value, onChangeMainField }) => {
       <input
         type="text"
         className="border-2 rounded w-full h-8 px-2 py-1"
-        // defaultValue={value}
         value={value}
-        onChange={(e) => onChangeMainField(name, e.currentTarget.value)}
+        onChange={(e) => onChangeMainField(e.currentTarget.value)}
       />
     </div>
   );
@@ -56,20 +57,13 @@ export const InputWithButton = ({
   //   console.log('the value of data is -->', data);
   return (
     <div className="mt-2 flex w-full">
-      {data.type !== 'textarea' ? (
-        <input
-          type={data.type}
-          className=" border-2 rounded w-full p-1"
-          value={data.name}
-          onChange={(e) => onChangeOtherFieldName(e.target.value)}
-        />
-      ) : (
-        <textarea
-          className=" border-2 rounded w-full p-1"
-          value={data.name}
-          onChange={(e) => onChangeOtherFieldName(e.target.value)}
-        />
-      )}
+      <input
+        type="text"
+        className=" border-2 rounded w-full p-1"
+        value={data.name}
+        onChange={(e) => onChangeOtherFieldName(e.target.value)}
+      />
+
       <div className="flex relative w-64">
         <select
           onChange={(e) => onChangeOtherFieldType(e?.currentTarget?.value)}
@@ -119,10 +113,14 @@ export const ButtonDropdown = ({ onNewFieldAddition }) => {
   );
 };
 
-export const ButtonDropdownForObjectTitle = ({ data }) => {
+export const ButtonDropdownForObjectTitle = ({ data, onChange }) => {
+  console.log();
   return (
     <div className="inline-block relative w-full">
-      <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight w-full">
+      <select
+        onChange={(e) => onChange(e.currentTarget?.value)}
+        value={data[OBJECT_TITLE].value}
+        className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight w-full">
         {Object.keys(data.other_fields).map((idForField) => (
           <option key={idForField} value={data.other_fields[idForField].name}>
             {data.other_fields[idForField].name}
