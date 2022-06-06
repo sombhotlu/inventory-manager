@@ -1,121 +1,51 @@
 import React from 'react';
 import TypeComponent from '../components/TypeComponent';
-import ShortUniqueId from 'short-unique-id';
 import {
   MainField,
   InputWithButton,
   ButtonDropdown,
   ButtonDropdownForObjectTitle,
 } from '../components/TypeComponent';
-import { useLocalStorage } from '../hooks/localStorage';
-import getData, { OBJECT_TITLE, OBJECT_TYPE } from '../SeedData/data';
+import { OBJECT_TITLE, OBJECT_TYPE } from '../SeedData/data';
+
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addType,
+  updateMainFieldName,
+  updateOtherFieldName,
+  updateOtherFieldType,
+  removeType,
+  newFieldAddition,
+} from '../features/inventory/inventory-slice';
 
 export default function ManageTypes() {
-  let [currentData, setCurrentData] = useLocalStorage('data', getData());
+  // let [currentData, setCurrentData] = useLocalStorage('data', getData());
+
+  const currentData = useSelector((state) => state.inventory);
+  const dispatch = useDispatch();
 
   const onClickAddTypeHandler = () => {
-    const uidForNewCategory = new ShortUniqueId();
-    const uidForNewField = new ShortUniqueId();
-
-    let newData = {
-      ...currentData,
-      [uidForNewCategory()]: {
-        [OBJECT_TYPE]: {
-          name: 'Object Type',
-          value: '',
-        },
-        [OBJECT_TITLE]: {
-          name: 'Object Title',
-          value: '',
-        },
-        other_fields: {
-          [uidForNewField()]: {
-            name: 'Model',
-            type: 'text',
-          },
-        },
-      },
-    };
-    setCurrentData(newData);
+    dispatch(addType());
   };
 
   const onChangeMainField = (id, name, value) => {
-    let newData = {
-      ...currentData,
-      [id]: {
-        ...currentData[id],
-        [name]: {
-          ...currentData[id][name],
-          value,
-        },
-      },
-    };
-
-    setCurrentData(newData);
+    dispatch(updateMainFieldName({ id, name, value }));
   };
 
   const onChangeOtherFieldName = (parentId, childId, name) => {
-    let newData = {
-      ...currentData,
-      [parentId]: {
-        ...currentData[parentId],
-        other_fields: {
-          ...currentData[parentId].other_fields,
-          [childId]: {
-            ...currentData[parentId].other_fields[childId],
-            name,
-          },
-        },
-      },
-    };
-
-    setCurrentData(newData);
+    dispatch(updateOtherFieldName({ parentId, childId, name }));
   };
 
   const onChangeOtherFieldType = (parentId, childId, type) => {
-    let newData = {
-      ...currentData,
-      [parentId]: {
-        ...currentData[parentId],
-        other_fields: {
-          ...currentData[parentId].other_fields,
-          [childId]: {
-            ...currentData[parentId].other_fields[childId],
-            type,
-          },
-        },
-      },
-    };
-
-    setCurrentData(newData);
+    dispatch(updateOtherFieldType({ parentId, childId, type }));
   };
 
   const onCloseClickHandler = (id) => {
-    let newData = {
-      ...currentData,
-    };
-    delete newData[id];
-    setCurrentData(newData);
+    dispatch(removeType({ id }));
   };
 
   const onNewFieldAddition = (parentId, type) => {
-    const newIdForNewField = new ShortUniqueId();
-    let newData = {
-      ...currentData,
-      [parentId]: {
-        ...currentData[parentId],
-        other_fields: {
-          ...currentData[parentId].other_fields,
-          [newIdForNewField()]: {
-            name: '',
-            value: '',
-            type,
-          },
-        },
-      },
-    };
-
-    setCurrentData(newData);
+    dispatch(newFieldAddition({ parentId, type }));
   };
 
   return (

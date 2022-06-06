@@ -1,11 +1,7 @@
+import React from 'react';
 import { OBJECT_TITLE } from '../SeedData/data';
 
-export default function TypeComponent({
-  data,
-  onCrossClickHandler,
-  children,
-  ...props
-}) {
+export default function TypeComponent({ data, onCrossClickHandler, children }) {
   let typeValue = data?.object_type?.value ?? '';
 
   return (
@@ -54,7 +50,6 @@ export const InputWithButton = ({
   onChangeOtherFieldName,
   onChangeOtherFieldType,
 }) => {
-  //   console.log('the value of data is -->', data);
   return (
     <div className="mt-2 flex w-full">
       <input
@@ -89,11 +84,14 @@ export const InputWithButton = ({
 
 export const ButtonDropdown = ({ onNewFieldAddition }) => {
   return (
-    <div key={Math.random()} className="inline-block relative w-full">
+    <div className="inline-block relative w-full">
       <select
-        onChange={(e) => onNewFieldAddition(e?.currentTarget?.value)}
+        value=""
+        onChange={(e) => {
+          onNewFieldAddition(e?.currentTarget?.value);
+        }}
         className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight w-full">
-        <option defaultValue="" disabled>
+        <option value="" disabled>
           Add Field
         </option>
         <option value="text">Small Text</option>
@@ -114,7 +112,6 @@ export const ButtonDropdown = ({ onNewFieldAddition }) => {
 };
 
 export const ButtonDropdownForObjectTitle = ({ data, onChange }) => {
-  console.log();
   return (
     <div className="inline-block relative w-full">
       <select
