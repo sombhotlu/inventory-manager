@@ -1,11 +1,11 @@
 import './App.css';
-import Example from './components/NavBar';
+import NavBar from './components/NavBar';
 import ManageTypes from './pages/ManageTypes';
 
 function App() {
   return (
     <>
-      <Example />
+      <NavBar />
       <div className="py-10">
         <ManageTypes />
       </div>

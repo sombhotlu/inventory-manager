@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TypeComponent from '../components/TypeComponent';
 import ShortUniqueId from 'short-unique-id';
 import {
@@ -7,36 +7,11 @@ import {
   ButtonDropdown,
   ButtonDropdownForObjectTitle,
 } from '../components/TypeComponent';
-
-function getData() {
-  const data = JSON.parse(localStorage.getItem('data') ?? '{}');
-  if (Object.keys(data).length) {
-    return data;
-  } else {
-    return {
-      1: {
-        object_type: {
-          name: 'Object Type',
-          value: 'Chainsaws',
-        },
-        other_fields: {
-          '01': {
-            name: 'Model',
-            value: '',
-            type: 'text',
-          },
-        },
-      },
-    };
-  }
-}
+import { useLocalStorage } from '../hooks/localStorage';
+import getData, { OBJECT_TITLE, OBJECT_TYPE } from '../SeedData/data';
 
 export default function ManageTypes() {
-  let [currentData, setCurrentData] = React.useState(getData());
-
-  useEffect(() => {
-    localStorage.setItem('data', JSON.stringify(currentData));
-  }, [currentData]);
+  let [currentData, setCurrentData] = useLocalStorage('data', getData());
 
   const onClickAddTypeHandler = () => {
     const uidForNewCategory = new ShortUniqueId();
@@ -45,14 +20,17 @@ export default function ManageTypes() {
     let newData = {
       ...currentData,
       [uidForNewCategory()]: {
-        object_type: {
+        [OBJECT_TYPE]: {
           name: 'Object Type',
+          value: '',
+        },
+        [OBJECT_TITLE]: {
+          name: 'Object Title',
           value: '',
         },
         other_fields: {
           [uidForNewField()]: {
             name: 'Model',
-            value: '',
             type: 'text',
           },
         },
@@ -66,9 +44,8 @@ export default function ManageTypes() {
       ...currentData,
       [id]: {
         ...currentData[id],
-        object_type: {
-          ...currentData[id].object_type,
-          name,
+        [name]: {
+          ...currentData[id][name],
           value,
         },
       },
@@ -154,8 +131,8 @@ export default function ManageTypes() {
                 key={currentData[parentId].object_type.name}
                 name={currentData[parentId].object_type.name}
                 value={currentData[parentId].object_type.value}
-                onChangeMainField={(name, value) =>
-                  onChangeMainField(parentId, name, value)
+                onChangeMainField={(value) =>
+                  onChangeMainField(parentId, OBJECT_TYPE, value)
                 }></MainField>
               <div className="mt-4">
                 <label
@@ -163,7 +140,12 @@ export default function ManageTypes() {
                   className="block text-gray-900 text-sm mb-2">
                   Object Title
                 </label>
-                <ButtonDropdownForObjectTitle data={currentData[parentId]} />
+                <ButtonDropdownForObjectTitle
+                  onChange={(value) =>
+                    onChangeMainField(parentId, OBJECT_TITLE, value)
+                  }
+                  data={currentData[parentId]}
+                />
               </div>
               <div className="mt-4">Fields</div>
               {Object.keys(currentData[parentId].other_fields).map(
@@ -190,8 +172,6 @@ export default function ManageTypes() {
             </TypeComponent>
           );
         })}
-        {/* <TypeComponent /> */}
-
         <div className="text-white grow">
           <button
             onClick={onClickAddTypeHandler}
