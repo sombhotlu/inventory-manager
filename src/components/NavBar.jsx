@@ -1,8 +1,9 @@
 import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const navigation = [
+const default_navigation = [
   { name: 'All', href: '/all' },
   { name: 'Manage Types', href: '/manage-types' },
 ];
@@ -28,6 +29,29 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
+  const currentData = useSelector((state) => state.inventory);
+
+  let dynamicNavigation = Object.keys(currentData)
+    .map((id) => {
+      let value = currentData[id].object_type.value;
+      if (value !== '') {
+        return {
+          name: value,
+          href: `types/${id}`,
+        };
+      }
+      return value;
+    })
+    .filter(Boolean);
+
+  let navigation = [
+    default_navigation[0],
+    ...dynamicNavigation,
+    default_navigation[1],
+  ];
+
+  console.log('The current data is -->', currentData);
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
