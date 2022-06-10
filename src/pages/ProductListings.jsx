@@ -2,7 +2,7 @@ import {
   removeProduct,
   updateFieldValues,
   addProduct,
-} from 'features/inventory/products-slice';
+} from '../features/inventory/products-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import TypeComponent from '../components/TypeComponent';
 import { MainField } from '../components/TypeComponent';
