@@ -5,9 +5,9 @@ import {
 } from 'features/inventory/products-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import TypeComponent from '../components/TypeComponent';
-import { MainField } from 'components/TypeComponent';
+import { MainField } from '../components/TypeComponent';
 import { useParams } from 'react-router-dom';
-import { ButtonDropdown } from 'components/TypeComponent';
+import { ButtonDropdown } from '../components/TypeComponent';
 
 export default function ProductListings() {
   const productsData = useSelector((state) => state.products);
