@@ -2,12 +2,10 @@ import React from 'react';
 import { OBJECT_TITLE } from '../SeedData/data';
 
 export default function TypeComponent({ data, onCrossClickHandler, children }) {
-  let typeValue = data?.object_type?.value ?? '';
-
   return (
     <div className="w-full max-w-sm border-2">
       <header className="flex justify-between bg-gray-100 p-3">
-        <div>{typeValue}</div>
+        <div>{data}</div>
         <div onClick={onCrossClickHandler} className="cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -29,14 +27,19 @@ export default function TypeComponent({ data, onCrossClickHandler, children }) {
   );
 }
 
-export const MainField = ({ name, value, onChangeMainField }) => {
+export const MainField = ({
+  name,
+  value,
+  onChangeMainField,
+  type = 'text',
+}) => {
   return (
     <div className="mt-4">
       <label htmlFor="object_type" className="block text-gray-900 text-sm mb-2">
         {name}
       </label>
       <input
-        type="text"
+        type={type}
         className="border-2 rounded w-full h-8 px-2 py-1"
         value={value}
         onChange={(e) => onChangeMainField(e.currentTarget.value)}
@@ -63,13 +66,13 @@ export const InputWithButton = ({
         <select
           onChange={(e) => onChangeOtherFieldType(e?.currentTarget?.value)}
           value={data.type}
-          className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight">
+          className="bg-gray-600 text-white block appearance-none w-full border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight">
           <option value="text">Small Text</option>
           <option value="textarea">Long Text</option>
           <option value="number">Number</option>
           <option value="date">Date</option>
         </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 top-0 bottom-0 flex items-center px-2 text-gray-700">
+        <div className="text-white pointer-events-none absolute inset-y-0 right-0 top-0 bottom-0 flex items-center px-2">
           <svg
             className="fill-current h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"
@@ -82,24 +85,27 @@ export const InputWithButton = ({
   );
 };
 
-export const ButtonDropdown = ({ onNewFieldAddition }) => {
+export const ButtonDropdown = ({ onNewFieldAddition, data }) => {
   return (
-    <div className="inline-block relative w-full">
+    <div className="inline-block relative w-full text-white">
       <select
         value=""
         onChange={(e) => {
           onNewFieldAddition(e?.currentTarget?.value);
         }}
-        className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight w-full">
-        <option value="" disabled>
-          Add Field
-        </option>
-        <option value="text">Small Text</option>
-        <option value="textarea">Long Text</option>
-        <option value="number">Number</option>
-        <option value="date">Date</option>
+        className="bg-gray-600 block appearance-none w-full border  border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight">
+        {data.map((option) => {
+          return (
+            <option
+              key={option.value}
+              value={option.value}
+              {...option.otherFields}>
+              {option.name}
+            </option>
+          );
+        })}
       </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 top-0 flex items-center px-2 text-gray-700">
+      <div className="text-white pointer-events-none absolute inset-y-0 right-0 top-0 flex items-center px-2">
         <svg
           className="fill-current h-4 w-4"
           xmlns="http://www.w3.org/2000/svg"
@@ -117,9 +123,9 @@ export const ButtonDropdownForObjectTitle = ({ data, onChange }) => {
       <select
         onChange={(e) => onChange(e.currentTarget?.value)}
         value={data[OBJECT_TITLE].value}
-        className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight w-full">
+        className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight">
         {Object.keys(data.other_fields).map((idForField) => (
-          <option key={idForField} value={data.other_fields[idForField].name}>
+          <option key={idForField} value={idForField}>
             {data.other_fields[idForField].name}
           </option>
         ))}

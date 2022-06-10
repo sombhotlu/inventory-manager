@@ -1,15 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import initialState from '../../SeedData/data';
 import ShortUniqueId from 'short-unique-id';
 import { OBJECT_TITLE, OBJECT_TYPE } from '../../SeedData/data';
 
-const inventorySlice = createSlice({
-  name: 'inventory',
+const productTypesSlice = createSlice({
+  name: 'productTypes',
   initialState: initialState(),
   reducers: {
     addType(state) {
       const uidForNewCategory = new ShortUniqueId();
       const uidForNewField = new ShortUniqueId();
+
+      let fieldId = uidForNewField();
       state[uidForNewCategory()] = {
         [OBJECT_TYPE]: {
           name: 'Object Type',
@@ -17,10 +19,10 @@ const inventorySlice = createSlice({
         },
         [OBJECT_TITLE]: {
           name: 'Object Title',
-          value: '',
+          value: fieldId,
         },
         other_fields: {
-          [uidForNewField()]: {
+          [fieldId]: {
             name: 'Model',
             type: 'text',
           },
@@ -29,6 +31,7 @@ const inventorySlice = createSlice({
     },
     updateMainFieldName(state, action) {
       const { id, name, value } = action.payload;
+      console.log('the value of id, name ,value is -->', id, name, value);
       state[id][name].value = value;
     },
     updateOtherFieldName(state, action) {
@@ -61,5 +64,5 @@ export const {
   updateOtherFieldType,
   removeType,
   newFieldAddition,
-} = inventorySlice.actions;
-export default inventorySlice.reducer;
+} = productTypesSlice.actions;
+export default productTypesSlice.reducer;

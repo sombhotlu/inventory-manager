@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import inventoryReducer from '../features/inventory/inventory-slice';
+import productTypesReducer from '../features/inventory/productTypes-slice';
+import productsReducer from '../features/inventory/products-slice';
 import initialState from '../SeedData/data';
 
 const persistedState = localStorage.getItem('data')
@@ -8,7 +9,8 @@ const persistedState = localStorage.getItem('data')
 
 export const store = configureStore({
   reducer: {
-    inventory: inventoryReducer,
+    productTypes: productTypesReducer,
+    products: productsReducer,
   },
   preloadedState: persistedState,
 });

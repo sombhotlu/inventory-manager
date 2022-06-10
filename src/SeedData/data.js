@@ -10,7 +10,7 @@ export default function initialData() {
       },
       object_title: {
         name: 'Object Title',
-        value: 'Model',
+        value: '01',
       },
       other_fields: {
         '01': {
@@ -21,3 +21,14 @@ export default function initialData() {
     },
   };
 }
+
+export const initialStateForProducts = () => {
+  return {
+    11: {
+      productTypeId: 1,
+      '01': {
+        value: '',
+      },
+    },
+  };
+};

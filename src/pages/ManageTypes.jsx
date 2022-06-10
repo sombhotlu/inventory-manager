@@ -16,12 +16,38 @@ import {
   updateOtherFieldType,
   removeType,
   newFieldAddition,
-} from '../features/inventory/inventory-slice';
+} from '../features/inventory/productTypes-slice';
+
+const buttonDropdownOptions = [
+  {
+    name: 'Add field',
+    value: '',
+    otherFields: {
+      disabled: true,
+    },
+  },
+  {
+    name: 'Small Text',
+    value: 'text',
+  },
+  {
+    name: 'Long Text',
+    value: 'textarea',
+  },
+  {
+    name: 'Number',
+    value: 'number',
+  },
+  {
+    name: 'Date',
+    value: 'date',
+  },
+];
+
+
 
 export default function ManageTypes() {
-  // let [currentData, setCurrentData] = useLocalStorage('data', getData());
-
-  const currentData = useSelector((state) => state.inventory);
+  const currentData = useSelector((state) => state.productTypes);
   const dispatch = useDispatch();
 
   const onClickAddTypeHandler = () => {
@@ -55,7 +81,7 @@ export default function ManageTypes() {
           return (
             <TypeComponent
               key={parentId}
-              data={currentData[parentId]}
+              data={currentData[parentId]?.object_type?.value ?? ''}
               onCrossClickHandler={() => onCloseClickHandler(parentId)}>
               <MainField
                 key={currentData[parentId].object_type.name}
@@ -94,6 +120,7 @@ export default function ManageTypes() {
               )}
               <div className="w-full mt-4">
                 <ButtonDropdown
+                  data={buttonDropdownOptions}
                   onNewFieldAddition={(type) =>
                     onNewFieldAddition(parentId, type)
                   }

@@ -2,7 +2,7 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import ManageTypes from './pages/ManageTypes';
-import TypeListings from './pages/TypeListings';
+import ProductListings from './pages/ProductListings';
 
 function App() {
   return (
@@ -10,8 +10,8 @@ function App() {
       <NavBar />
       <div className="py-10">
         <Routes>
-          <Route path="/all" element={<TypeListings />} />
-          <Route path="/types/:typeId" element={<TypeListings />} />
+          <Route path="/products" element={<ProductListings />} />
+          <Route path="/types/:typeId" element={<ProductListings />} />
           <Route path="/manage-types" element={<ManageTypes />} />
         </Routes>
       </div>
