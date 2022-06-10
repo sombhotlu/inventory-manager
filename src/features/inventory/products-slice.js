@@ -28,9 +28,19 @@ const productsSlice = createSlice({
       const { productId } = action.payload;
       delete state[productId];
     },
+    removeMultipleProductIds(state, action) {
+      const { productIds } = action.payload;
+      for (let productId of productIds) {
+        delete state[productId];
+      }
+    },
   },
 });
 
-export const { addProduct, updateFieldValues, removeProduct } =
-  productsSlice.actions;
+export const {
+  addProduct,
+  updateFieldValues,
+  removeProduct,
+  removeMultipleProductIds,
+} = productsSlice.actions;
 export default productsSlice.reducer;

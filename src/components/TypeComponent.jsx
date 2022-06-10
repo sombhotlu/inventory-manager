@@ -38,12 +38,20 @@ export const MainField = ({
       <label htmlFor="object_type" className="block text-gray-900 text-sm mb-2">
         {name}
       </label>
-      <input
-        type={type}
-        className="border-2 rounded w-full h-8 px-2 py-1"
-        value={value}
-        onChange={(e) => onChangeMainField(e.currentTarget.value)}
-      />
+      {type === 'textarea' ? (
+        <textarea
+          className="border-2 rounded w-full h-8 px-2 py-1"
+          value={value}
+          onChange={(e) => onChangeMainField(e.currentTarget.value)}
+        />
+      ) : (
+        <input
+          type={type}
+          className="border-2 rounded w-full h-8 px-2 py-1"
+          value={value}
+          onChange={(e) => onChangeMainField(e.currentTarget.value)}
+        />
+      )}
     </div>
   );
 };

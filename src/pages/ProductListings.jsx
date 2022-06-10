@@ -22,12 +22,6 @@ export default function ProductListings() {
   };
 
   const onChangeFieldValue = (productId, fieldId, value) => {
-    console.log(
-      'The value of productId , fieldId, value',
-      productId,
-      fieldId,
-      value,
-    );
     dispatch(updateFieldValues({ productId, fieldId, value }));
   };
 

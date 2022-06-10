@@ -17,6 +17,7 @@ import {
   removeType,
   newFieldAddition,
 } from '../features/inventory/productTypes-slice';
+import { removeMultipleProductIds } from '../features/inventory/products-slice';
 
 const buttonDropdownOptions = [
   {
@@ -43,11 +44,9 @@ const buttonDropdownOptions = [
     value: 'date',
   },
 ];
-
-
-
 export default function ManageTypes() {
   const currentData = useSelector((state) => state.productTypes);
+  const productsData = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
   const onClickAddTypeHandler = () => {
@@ -68,6 +67,11 @@ export default function ManageTypes() {
 
   const onCloseClickHandler = (id) => {
     dispatch(removeType({ id }));
+    let productIds = Object.keys(productsData).filter((productId) => {
+      return String(productsData[productId].productTypeId) === String(id);
+    });
+
+    dispatch(removeMultipleProductIds({ productIds }));
   };
 
   const onNewFieldAddition = (parentId, type) => {
