@@ -37,7 +37,7 @@ export default function NavBar() {
       if (value !== '') {
         return {
           name: value,
-          href: `types/${id}`,
+          href: `/types/${id}`,
         };
       }
       return value;
